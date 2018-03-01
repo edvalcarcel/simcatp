@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/Y:/htdocs/SimCaTP/resources/views/simulador/simulador.blade.php</file>
+            <file>file:/Y:/htdocs/SimCaTP/routes/web.php</file>
+            <file>file:/Y:/htdocs/SimCaTP/resources/views/simulador/inicio.blade.php</file>
+            <file>file:/Y:/htdocs/SimCaTP/resources/views/administracion/admin.blade.php</file>
+            <file>file:/Y:/htdocs/SimCaTP/app/Http/Controllers/SimuladorController.php</file>
+            <file>file:/Y:/htdocs/SimCaTP/database/migrations/2018_01_12_214400_create_total_lados_table.php</file>
+        </group>
+    </open-files>
+</project-private>

@@ -1,0 +1,730 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                    <div class="panel-heading" style="text-align: center">
+                        <strong>    </strong>
+                    </div>
+
+                     <div class="panel-body" style="padding-top: 0">
+                     <div class="row" style="background: #D4D5D6">
+                         <div style="padding-top: 20px" class="col-md-6">
+                             <div class="col-md-5">
+                                 <select class="col-md-12">
+                                  <option value="volvo">Volvo</option>
+                                  <option value="saab">Saab</option>
+                                  <option value="vw">VW</option>
+                                  <option value="audi" selected>Audi</option>
+                                 </select>
+                             </div>
+                             <div class="col-md-4">
+                        <input type="checkbox" name="animal" value="Cat" />Cats <br />
+                        <input type="checkbox" name="animal" value="Dog" />Dogs<br />
+                        <input type="checkbox" name="animal" value="Bird" />Birds<br />
+                             </div>
+                             <div class="col-md-3">
+                                 <button type="">Guardar</button>
+                             </div>
+                         </div>
+                         <div class="col-md-6">
+                         <table id="tabla_resumen" class="table table-bordered">
+                             <thead  >
+
+                                 <td class="col-md-6">Productos</td>
+                                 <td class="col-md-3">Unidades</td>
+                                 <td class="col-md-3">Metros</td>
+
+                             </thead>
+                             <tbody >
+
+
+                             </tbody>
+                         </table>
+
+                         </div>
+                    </div>
+                            <div  style="background: #D9DADB" class="row">
+                                        <section class="col-md-10" id="centro_horno">
+
+                                            <div style="width: 2000px" id="contendor_dagas">
+
+                                             </div>
+                                         </section>
+
+                                        <div  class="col-md-2">
+
+                                                <div class="col-md-12">
+                                                    <strong>Listado de Productos</strong>
+                                                </div>
+                                                 <div class="col-md-12">
+
+                                                              <ul  id="lista_productos" class="list-group">
+
+                                                                    <li class="list-group-item uno" id="producto"   data-cod="P.60" data-nombre="Piso 60" data-hijo="1" data-altura="0.6" data-estado="false"
+                                                                    ><strong>Piso 60</strong></li>
+                                                                    <li class="list-group-item uno" id="producto"   data-cod="P.25" data-nombre="Piso 25"  data-hijo="2" data-altura="0.25" data-estado="false"
+                                                                    ><strong>Piso 25</strong></li>
+                                                                    <li class="list-group-item uno" id="producto"  data-cod="H.30" data-nombre="Huella 30" data-hijo="3" data-altura="0.3" data-estado="false"
+                                                                    ><strong>Huella 30</strong></li>
+                                                                    <li class="list-group-item uno" id="producto"   data-cod="Z.30"  data-nombre="Zocalo 30"  data-hijo="4" data-altura="0.3" data-estado="false"
+                                                                    ><strong>Zocalo 30</strong></li>
+                                                                    <li class="list-group-item uno" id="producto" data-cod="Z.25"  data-nombre="Zocalo 25" data-hijo="5" data-altura="0.25" data-estado="false"
+                                                                    ><strong>Zocalo 25</strong></li>
+                                                                    <li class="list-group-item uno" id="producto"   data-cod="P.40x20" data-nombre="Piso 40x20"   data-hijo="6" data-altura="0.4" data-estado="false"
+                                                                    ><strong>Piso 40 x 20</strong></li>
+                                                                    <li class="list-group-item uno" id="producto"  data-cod="FACH"  data-nombre=" Fachaleta 7x25" data-hijo="7" data-altura="0.07" data-estado="false"
+                                                                    ><strong>Fachaleta 7 x 25</strong></li>
+                                                                    <li class="list-group-item uno" id="producto"  data-cod="B 5/30"  data-nombre="Bloque  5/30" data-hijo="8" data-altura="0.3" data-estado="false"
+                                                                    ><strong>Bloque 5/30</strong></li>
+                                                                    <li class="list-group-item uno" id="producto"  data-cod="B 1/2 "  data-nombre="Bloque  1/2" data-hijo="9" data-altura="0.15" data-estado="false"
+                                                                    ><strong>Bloque 1/2</strong></li>
+                                                                    <li class="list-group-item uno" id="producto"  data-cod="T.S"  data-nombre="Teja Single" data-hijo="10" data-altura="0.34" data-estado="false"
+                                                                    ><strong>Teja Single</strong></li>
+                                                            </ul>
+                                                </div>
+                                    </div>
+                            </div>
+
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@endsection
+
+@section('script')
+
+ <script>
+
+        $(document).on("ready", function (e)
+            {
+
+
+                function verificar_en_tabla_resumen(codigo){
+                        var productos =$("#tabla_resumen tbody tr").length;
+                        var respuesta=0;
+                     for(var x = 1; x<= productos; x = x+1)
+                    {
+                       var codigo_producto =  $("table#tabla_resumen tbody tr:nth-child("+x+") td div#porducto_cargado").attr("data-cod");
+                       if(codigo=== codigo_producto)
+                       {
+                        respuesta= respuesta+ 1;
+
+                       }
+                    }
+                    return respuesta;
+
+
+                }
+
+                function calcular_cantidades()
+                {
+                     var dagas_centro = $("#contendor_dagas > div.daga").length;
+                     var codigo_hilo="";
+                        var productos =$("#tabla_resumen tbody tr").length;
+
+                        var cantidad=0;
+                      for(var x = 1; x<= productos; x = x+1)
+                    {
+                    var codigo_producto =  $("table#tabla_resumen tbody tr:nth-child("+x+") td div#porducto_cargado").attr("data-cod");
+
+                     for(var num_daga = 1; num_daga<= dagas_centro; num_daga = num_daga+1)
+                    {
+
+                       var hilos_de_cada_daga= $("div#daga"+ num_daga).children('div.hilo').length-1;
+
+
+                           for(var num_hilo = 1; num_hilo <= hilos_de_cada_daga; num_hilo = num_hilo+1)
+                            {
+
+
+                              codigo_hilo = $("#contendor_dagas >div:nth-child(" +num_daga+") > div:nth-child("+num_hilo+") div#producto").attr("data-codigo");
+                             // alert($("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo"+num_hilo+" div#producto").attr("data-cantidad"));
+                             if(codigo_producto ===  codigo_hilo)
+                             {
+
+                                cantidad= cantidad +parseFloat($("#contendor_dagas >div:nth-child(" +num_daga+") > div:nth-child("+num_hilo+") div#producto").attr("data-cantidad"));
+
+                             }
+
+
+                            }
+
+
+                    }
+//                    alert(cantidad);
+                        if(cantidad===0){
+
+                            $("#tabla_resumen tbody tr:nth-child("+x+")").remove();
+
+                        }else{
+                         $("#tabla_resumen tbody tr:nth-child("+x+") td:nth-child("+2+")").text(cantidad);
+                          cantidad=0;
+
+                        }
+
+
+                    }
+                }
+
+
+                var daga ="";
+                 for(var num_daga = 1; num_daga<= 10; num_daga = num_daga+1)
+                 {
+
+
+                   for(var num_hilo = 0; num_hilo <= 10; num_hilo = num_hilo+1)
+                    {
+                        if(num_hilo===0)
+                        {
+                            daga +="<div id ='daga"+num_daga+"' data-hilos='10' data-altura_asignada='0' class='daga'>";
+                            daga +="<div id ='hilo0'  data-daga='daga"+num_daga+"' class='hilo'></div>";
+
+                        }
+                        else if(num_hilo===10)
+                        {
+
+                            daga += "<div id ='hilo"+num_hilo+"'  data-daga='daga"+num_daga+"'  class='hilo'>";
+                            daga +="<div id='producto' data-cantidad='80' data-nombre='' data-codigo='' data-altura='' data-imagen=''><p>&nbsp;</p></div>";
+                           daga += "<div id='spanes'><span id='eliminar' data-hilo='hilo"+num_hilo+"' data-daga='daga"+num_daga+"' class='glyphicon glyphicon-remove-circle ' aria-hidden='true'></span>";
+                           daga += "<span id='agregar' data-hilo='hilo"+num_hilo+"' data-daga='daga"+num_daga+"' class='glyphicon glyphicon-plus' aria-hidden='true'></span></div>";
+                              daga +=     "</div></div>";
+
+                        }
+                        else
+                        {
+                                        daga += "<div id ='hilo"+num_hilo+"'  data-daga='daga"+num_daga+"' data-cantidad='80'  class='hilo'>";
+                                        daga+="<div id='producto' data-cantidad='80' data-nombre='' data-codigo='' data-altura='' data-imagen=''><p>&nbsp;</p></div>"
+                           daga += "<div id='spanes'><span id='eliminar'  data-hilo='hilo"+num_hilo+"' data-daga='daga"+num_daga+"' class='glyphicon glyphicon-remove-circle btn-lg' aria-hidden='true'></span>";
+                           daga += "<span id='agregar'  data-hilo='hilo"+num_hilo+"' data-daga='daga"+num_daga+"' class='glyphicon glyphicon-plus' aria-hidden='true'></span></div>";
+                               daga += "</div>";
+
+                        }
+
+
+                    }
+
+
+                     $("#centro_horno div#contendor_dagas").append(daga);
+                     daga="";
+                }
+
+
+
+
+                 $("div#contendor_dagas ").on("click",".daga .hilo  span#agregar", function(e){
+
+                     //var hilo_cerrar= $(this).attr("data-hilo");
+                            var daga= $(this).attr("data-daga");
+                            var hilos_contados = $("div#"+ daga).attr("data-hilos");
+
+                             var altura_daga = $("div#"+ daga).outerHeight() - $("div#"+ daga+"> div#hilo0").outerHeight();
+                           // var altura_hilo_cerrar = $("div#"+daga+" div#"+hilo_cerrar+"").outerHeight();
+                            //var hijos =  parseFloat(hilos_contados)+1;
+
+                            var hijo_nuevo = parseFloat(hilos_contados)+1;
+                            var id_hilo =$(this).attr("data-hilo");
+                             //var posicion= $("div#"+ daga).ntch('div#'+ $(this).attr("data-hilo"));
+
+
+
+                            $("div#"+ daga).children("div#"+id_hilo).after("<div id ='hilo"+hijo_nuevo+"' data-cantidad=''  data-daga='"+daga+"' class='hilo'>"+
+                                        "<div id='producto' data-cantidad='80' data-altura='' data-imagen=''><p>&nbsp;</p></div>"+
+                                            "<div id='spanes'><span id='eliminar' data-hilo='hilo"+hijo_nuevo+"' data-daga='"+daga+"' class='glyphicon glyphicon-remove-circle ' aria-hidden='true'></span>"+
+                                            "<span id='agregar' data-hilo='hilo"+hijo_nuevo+"' data-daga='"+daga+"' class='glyphicon glyphicon-plus' aria-hidden='true'></span></div>"+
+                                            "</div></div>");
+//                            $("div#"+ daga).
+
+                               $("div#"+ daga).attr("data-hilos",hijo_nuevo);
+
+                            var altura_vacio = $("div#"+daga+" div#hilo0").outerHeight();
+
+                            nueva_altura_vacio = altura_vacio;
+                            var altura_daga_modif = $("div#"+ daga).outerHeight() - $("div#"+ daga+"> div#hilo0").outerHeight();
+
+                            $("div#"+daga+" div#hilo0").outerHeight(nueva_altura_vacio);
+
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            //busquemos la daga mas alta
+
+                             var dagas_centro = $("#contendor_dagas > div.daga").length;
+                                          var contador_alturas=0;
+                                            var alturas_dagas_todas = [];
+                                        for(var num_daga = 1; num_daga<= dagas_centro; num_daga = num_daga+1)
+                                            {
+
+
+                                              altura_dagas_dato=$("#contendor_dagas >div:nth-child(" +num_daga+")").outerHeight()- $("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").outerHeight();
+
+                                                    alturas_dagas_todas.push(altura_dagas_dato);
+                                            }
+
+                                                 var daga_alta= Math.max.apply(null,alturas_dagas_todas);
+
+
+                                              //      $("#contendor_dagas").height(daga_alta);
+
+
+                                    var altura_contenedor = $("#contendor_dagas").outerHeight();
+
+                                    var dagas_centro = $("#contendor_dagas > div.daga").length;
+                                          var contador_alturas=0;
+                                            var vacios = [];
+                                    for(var num_daga = 1; num_daga<= dagas_centro; num_daga = num_daga+1)
+                                            {
+
+                                                var altura_actual_daga =($("#contendor_dagas >div:nth-child(" +num_daga+")").outerHeight()- $("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").outerHeight());
+
+
+                                                  var altura_vacio= daga_alta - altura_actual_daga;
+
+                                                  // $("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").outerHeight(altura_vacio);
+
+                                                  /**************si molesta descomento lo de arriba y quito lo de abajo*********/
+                                                  $("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").animate({
+                                                                                              height: altura_vacio
+                                                                                               },
+                                                                                               200, function() {
+
+                                                                                                });
+
+                                        }
+                 });
+
+
+                 $("div#contendor_dagas ").on("click"," .daga .hilo  span#eliminar", function(e)
+                         {
+
+                            var hilo_cerrar= $(this).attr("data-hilo");
+                            var daga= $(this).attr("data-daga");
+                            $("div#"+daga+" div#"+hilo_cerrar+"").remove();
+                             var altura_daga = $("div#"+ daga).outerHeight() - $("div#"+ daga+"> div#hilo0").outerHeight();
+                            var altura_hilo_cerrar = $("div#"+daga+" div#"+hilo_cerrar+"").outerHeight();
+
+
+
+                            var altura_vacio = $("div#"+daga+" div#hilo0").outerHeight();
+
+                            nueva_altura_vacio = altura_vacio +altura_hilo_cerrar;
+                            var altura_daga_modif = $("div#"+ daga).outerHeight() - $("div#"+ daga+"> div#hilo0").outerHeight();
+
+                            //$("div#"+daga+" div#hilo0").outerHeight(nueva_altura_vacio);
+                            $("div#"+daga+" div#hilo0").animate({
+                                                                                              height: nueva_altura_vacio
+                                                                                               },
+                                                                                               200, function() {
+
+                                                                                                });
+
+
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            //busquemos la daga mas alta
+
+                             var dagas_centro = $("#contendor_dagas > div.daga").length;
+                                          var contador_alturas=0;
+                                            var alturas_dagas_todas = [];
+                                        for(var num_daga = 1; num_daga<= dagas_centro; num_daga = num_daga+1)
+                                            {
+
+
+                                              altura_dagas_dato=$("#contendor_dagas >div:nth-child(" +num_daga+")").outerHeight()- $("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").outerHeight();
+
+                                                    alturas_dagas_todas.push(altura_dagas_dato);
+                                            }
+
+                                                 var daga_alta= Math.max.apply(null,alturas_dagas_todas);
+
+
+                                              //      $("#contendor_dagas").height(daga_alta);
+
+
+                                    var altura_contenedor = $("#contendor_dagas").outerHeight();
+
+                                    var dagas_centro = $("#contendor_dagas > div.daga").length;
+                                          var contador_alturas=0;
+                                            var vacios = [];
+                                    for(var num_daga = 1; num_daga<= dagas_centro; num_daga = num_daga+1)
+                                            {
+
+                                                var altura_actual_daga =($("#contendor_dagas >div:nth-child(" +num_daga+")").outerHeight()- $("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").outerHeight());
+
+
+                                                  var altura_vacio= daga_alta - altura_actual_daga;
+
+                                                   //$("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").outerHeight(altura_vacio);
+                                                   $("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").animate({
+                                                                                              height: altura_vacio
+                                                                                               },
+                                                                                               200, function() {
+
+                                                                                                });
+
+                                        }
+
+                                        calcular_cantidades();
+
+                        });
+
+
+
+
+                                        var producto_selec="";
+                                        var altura_selec="";
+                                        var nombre_selec="";
+
+
+
+
+
+
+
+
+
+
+                $(" li#producto").on("click", function(e)
+                         {
+
+
+
+                                        var hijo =$(this).attr("data-hijo");
+                                if($(this).attr("data-estado")==="false")
+                                {
+                                        $("#lista_productos li").css("background", "none");
+                                        $(this).attr("data-estado","true");
+                                        $("#lista_productos li:nth-child("+hijo+")").css("background", "#007fff");
+                                        producto_selec=$(this).attr("data-cod");
+                                        nombre_selec =$(this).attr("data-nombre");
+
+
+                                        altura_selec=$(this).attr("data-altura");
+
+                                        return;
+                                }
+                               else
+                               {
+                                        $(this).attr("data-estado","false");
+                                        $("#lista_productos li:nth-child("+hijo+")").css("background", "none");
+                                        producto_selec="";
+                                        altura_selec="";
+                                        return;
+                               }
+                        });
+
+
+                $(" #contendor_dagas ").on("click","div.hilo", function(e)
+                        {
+                                var reajuste = 0;
+                                var colores_cargados=[   "#A99D9D", "#E9AB00",
+                                "#AD0000", "#EF5F69", "#0325A3",  "#B9A737",
+                                "#5B6B00", "#FF00C9", "#FF5300", "#00AD75", "#570000", "#8500EB" ,
+                                "#00A5CF", "#4FB7B1", "#67FF65", "#C1C999","#DF63DF","#F99100","#19731B"]
+
+                                if(producto_selec===""||altura_selec==="")
+                                {
+                                        alert("Seleccione un producto");
+                                        return;
+                                }
+
+                                if(producto_selec===$(this).attr("data-cod"))
+                                {
+                                        return;
+                                }
+                                if($(this).attr("data-cod")!=="")
+                                {
+                                       //reajuste =  parseFloat($(this).height()) - parseFloat(altura_selec);
+                                        //reajuste =((600 * (reajuste*100))/400);
+
+                                }
+                                var aumento =((1000 * parseFloat(altura_selec)*100)/400);
+
+                                       // $(this).text(producto_selec);
+
+                                        var altura = parseFloat(altura_selec);
+                                        if(altura < 0.10){
+                                            $(this).children('div#producto').css({
+                                                "font-size": '8px'
+
+                                            });
+                                        }else{
+                                                 $(this).children('div#producto').css({
+                                                "font-size": '18px'
+
+                                            });
+                                        }
+
+                                        var altura_pixeles = Math.round((((1000 * (altura*100))/400)),1);
+                                        var daga = $(this).attr("data-daga");
+                                        var altura_contenedor = $("#contendor_dagas").outerHeight();
+                                        $(this).attr("data-codigo", )
+                                        $(this).children('div#producto').text(producto_selec)
+                                        $(this).children('div#producto').attr("data-codigo",producto_selec);
+                                        $(this).children('div#producto').attr("data-nombre",nombre_selec);
+
+                                      calcular_cantidades();
+                                            var productos_resumen =$("#tabla_resumen tbody tr").length;
+                                            var resto  = productos_resumen % 2;
+                                            var clase_color="uno"
+                                            if(resto>1){
+                                                clase_color="uno"
+                                            } else{
+                                                clase_color="dos";
+                                            }
+                                             var productos =$("#tabla_resumen tbody tr").length;
+                                                       var color=1;
+                                            var respuesta= verificar_en_tabla_resumen(producto_selec);
+                                            var nuevo_producto =0;
+                                            if(respuesta===0){
+
+                                                color= 1;
+
+                                                var verifica_color=0;
+                                                if(productos>0){
+
+
+                                                      color = -1;
+                                                    do {
+                                                        color = color+1;
+                                                        verifica_color=0;
+
+                                                   for(var x = 1; x<= productos; x = x+1)
+                                                    {
+                                                       color_hilo= $("#tabla_resumen tbody tr:nth-child("+x+") td:nth-child("+1+") div#color_identificador").attr("data-background");
+                                                      // alert(" color actual tabla "+ color_hilo+ " nuevo color de lista  "+ colores_cargados[color])
+                                                       if(colores_cargados[color] != color_hilo )
+                                                       {
+                                                        verifica_color =verifica_color+ 1;
+                                                    //    alert("cantidad de veces repetida con color " +color );
+
+
+                                                       }
+
+                                                    }
+
+
+                                                  //alert(" fin del do ahora verifica quedo en " + verifica_color +" y productos"+ productos)
+                                                }
+                                                    while (verifica_color != productos)
+                                                            }
+
+
+
+                                                $("#tabla_resumen tbody ").append(" <tr id='"+clase_color+"'>"+
+                                 "<td class='col-md-6'>"+
+                                     "<div class='col-md-3' data-background='"+colores_cargados[color]+"' id='color_identificador'"+
+                                      "style='background: "+colores_cargados[color]+"' >"+
+
+                                     "</div>"+
+                                     "<div id='porducto_cargado' data-background='"+colores_cargados[color]+"' data-cod='"+producto_selec+"' class='col-md-9'>"+
+                                         nombre_selec+
+                                     "</div>"+
+
+                                 "</td>"+
+                                 "<td class='col-md-3'>0</td>"+
+                                 "<td class='col-md-3'>0</td>"+
+                                "</tr>");
+                                                nuevo_producto=1;
+
+                                            }
+
+                                                var color_fondo="";
+                                            for(var x = 1; x<= productos; x = x+1)
+                                                    {
+
+                                                      var codigo_prod =$("table#tabla_resumen tbody tr:nth-child("+x+") td div#porducto_cargado").attr("data-cod");
+
+                                                       if(codigo_prod===producto_selec )
+                                                       {
+                                                        color_fondo=$("#tabla_resumen tbody tr:nth-child("+x+") td:nth-child("+1+") div#color_identificador").attr("data-background");
+                                                        break;
+
+                                                       }
+                                                    }
+
+
+                                                 if(nuevo_producto===1){
+                                                $(this).css({
+                                                "background" : colores_cargados[color]
+
+                                            });
+                                                 }else{
+                                                $(this).css({
+                                                "background" : color_fondo
+
+                                                  });
+                                                 }
+
+
+                                              //  if(respuesta > 1 ){
+                                                //     color= respuesta-1;
+
+                                                   // var color_hilo= $("#tabla_resumen tbody tr:nth-child("+color+") td:nth-child("+1+") div#color_identificador").attr("data-background");
+
+                                           /* } else{
+                                                     color= productos_resumen+1;
+
+                                                $(this).css({
+                                                "background" : colores_cargados[color]
+
+                                            });
+                                            }
+                                            */
+                                         var dagas_centro = $("#contendor_dagas > div.daga").length;
+                                          var contador_alturas=0;
+                                          var alturas_dagas=[];
+
+
+
+
+
+                                        $(this).outerHeight(altura_pixeles);
+
+                                        //alert("cambia altura");
+                                        var hilos =$("div#"+ daga+">div").length;
+                                        var altura_daga_pre_modf = $("#"+ daga).outerHeight() - $("div#"+ daga+"> div#hilo0").outerHeight();
+                                        //alert(altura_daga_pre_modf);
+                                        //alert(altura_daga_pre_modf + " "+ $("#"+ daga).outerHeight() +"  "  +  $("div#"+ daga+"> div#hilo0").outerHeight());
+
+                             var altura_daga =parseFloat($("#"+ daga).outerHeight())-$("div#"+ daga+"> div#hilo0").outerHeight();
+
+                        // alert("la altura de la daga es "+ altura_daga+ " y la del cont " + altura_contenedor);
+                             if(altura_daga > altura_contenedor)
+                                {
+                                             var dagas_centro = $("#contendor_dagas > div.daga").length;
+                                             var aumento_div_central = altura_daga-$("#centro_horno").outerHeight();
+                                             $("div#"+ daga+"> div#hilo0").outerHeight(0);
+                                        for(var num_daga = 1; num_daga<= dagas_centro; num_daga = num_daga+1)
+                                            {
+                                                var altura_dag_mayor =parseFloat($("#"+ daga).outerHeight())-$("div#"+ daga+"> div#hilo0").outerHeight();
+
+
+                                                   // alert(parseFloat(altura_daga) + " esto " + parseFloat( $("#centro_horno").height()));
+
+                                                    if($("#"+ daga).attr("id") !== $("#contendor_dagas >div:nth-child(" +num_daga+")").attr("id"))
+                                                    {
+                                                        var altura_vacio = altura_dag_mayor-$("#contendor_dagas >div:nth-child(" +num_daga+")").outerHeight()+$("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").outerHeight();
+                                                        $("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").animate({
+                                                                                                                        height: altura_vacio
+                                                                                                                            },
+                                                                                                                            200, function() {
+
+                                                                                                                        });
+
+                                                    }
+
+                                            }
+
+
+
+                                }
+                                else
+                                {
+
+                                             //var altura_contenedor = altura_daga-$("#centro_horno").outerHeight();
+
+
+
+                                                   // alert(parseFloat(altura_daga) + " esto " + parseFloat( $("#centro_horno").height()));
+                                                    var altura_vacio = altura_contenedor-altura_daga;
+
+
+
+                                                        $("div#"+ daga+"> div#hilo0").outerHeight(altura_vacio);
+
+                                                    //alert(parseFloat($("#"+ daga).outerHeight())-$("div#"+ daga+"> div#hilo0").outerHeight());
+
+
+
+
+                                }
+
+                                var dagas_centro = $("#contendor_dagas > div.daga").length;
+                                          var contador_alturas=0;
+                                        for(var num_daga = 1; num_daga<= dagas_centro; num_daga = num_daga+1)
+                                            {
+
+                                            var altura_daga_prueba=$("#contendor_dagas >div:nth-child(" +num_daga+")").outerHeight()- $("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").outerHeight();
+                                                    if(altura_contenedor > ($("#contendor_dagas >div:nth-child(" +num_daga+")").outerHeight()- $("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").outerHeight()))
+                                                    {
+
+
+                                                        contador_alturas= contador_alturas+1;
+
+                                                    }
+
+                                            }
+                                            //alert(contador_alturas);
+                                             var vacios = [];
+
+                                            if(contador_alturas === dagas_centro )
+                                            {
+
+                                                for(var num_daga = 1; num_daga<= dagas_centro; num_daga = num_daga+1)
+                                            {
+
+                                              var altura_vacio =altura_contenedor- $("#contendor_dagas >div:nth-child(" +num_daga+")").outerHeight()+$("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").outerHeight();
+                                                        //$("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").outerHeight(altura_vacio);
+
+                                                        vacios.push(altura_vacio);
+
+                                            }
+                                            //alert(contador_alturas);
+
+
+                                                var vacio_menor = Math.min.apply(null,vacios);
+                                             for(var num_daga = 1; num_daga<= dagas_centro; num_daga = num_daga+1)
+                                            {
+
+
+                                               // alert("este es vacio mayor " + vacio_menor);
+
+                                               // alert("mostrando"+vacio_mayor);
+                                              var altura_vacio = $("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").outerHeight() - vacio_menor;
+                                                 //alert("mostrando"+vacio_menor +" y el vacio nuevo " + altura_vacio);
+
+                                                    if(altura_vacio<0){
+                                                        altura_vacio=altura_contenedor- $("#contendor_dagas >div:nth-child(" +num_daga+")").outerHeight()+$("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").outerHeight()-vacio_menor;
+                                                    }
+                                                   // alert("la altura es "+ $("#contendor_dagas >div:nth-child(" +num_daga+")").outerHeight());
+
+                                                //alert(altura_vacio);
+
+                                                        $("#contendor_dagas >div:nth-child(" +num_daga+") > div#hilo0").animate({
+                                                                                              height: altura_vacio
+                                                                                               },
+                                                                                               200, function() {
+
+                                                                                                });
+
+
+
+
+                                            }
+
+
+                                            }
+
+
+
+
+
+                             calcular_cantidades();
+
+                        });
+
+            });
+
+
+    </script>
+
+
+
+@endsection
